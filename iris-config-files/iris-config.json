@@ -1,0 +1,20 @@
+{
+    "Security.SSLConfigs": {
+        "%SuperServer": {
+            "CAFile": "/usr/irissys/mgr/CA_Server.cer",
+            "CertificateFile": "/usr/irissys/mgr/iris_client.cer",
+            "Name": "%SuperServer",
+            "PrivateKeyFile": "/usr/irissys/mgr/iris_client.key",
+            "Type": "1",
+            "VerifyPeer": 3
+        }
+    },
+    "Security.System": {
+        "SSLSuperServer":1
+    },
+    "Security.Services": {
+        "%Service_WebGateway": {
+            "ClientSystems": "172.16.238.50;127.0.0.1;172.16.238.20"
+        }
+    }
+}

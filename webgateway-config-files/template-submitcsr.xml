@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <SubmitCSR xmlns="http://pki.intersystems.com">
+      <csr>
+        <Name>hostname:WEBGATEWAY:CertificateFileName</Name>
+        <Hostname>hostname</Hostname>
+        <Instance>webgateway</Instance>
+        <Filename>CertificateFileName</Filename>
+        <Contents>TheRequestCertificate</Contents>
+        <Subject>CsrSubject</Subject>
+        <ContactName>ContactNameToReplace</ContactName>
+        <ContactPhone>PhoneToReplace</ContactPhone>
+        <ContactEmail>EmailToReplace</ContactEmail>
+      </csr>
+    </SubmitCSR>
+  </soap:Body>
+</soap:Envelope>

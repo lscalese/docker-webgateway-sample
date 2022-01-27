@@ -1,13 +1,41 @@
 version: '3.6'
 services:
-  iris:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    restart: always
+
+  webgateway:
+    image: tls-ssl-webgateway
+    container_name: tls-ssl-webgateway
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.50
     ports: 
-      - 1972
-      - 52773
-      - 53773
-    volumes:
-      - ./:/irisrun/repo
+      - "80:80"
+      - "443:443"
+    environment:
+      - IRIS_HOST=172.16.238.20
+      - IRIS_PORT=1972
+      - "PKI_SERVER=172.16.238.20:52773"
+      - "CERTIFICATE_FILENAME=webgateway_client"
+      - "CERTIFICATE_SUBJECT=/C=BE/ST=Wallonia/L=Namur/O=Community/OU=IT/CN=webgateway"
+      # Replace by the list of ip address allowed to open the CSP system manager
+      # https://localhost/csp/bin/RunTime/Module.cxw
+      - "SYSTEM_MANAGER=127.0.0.1,10.0.2.15"
+    hostname: webgateway
+    command: ["--ssl"]
+
+  iris:
+    image: intersystemsdc/iris-community:latest
+    container_name: tls-ssl-iris
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.20
+    volumes: 
+      - ./iris-config-files:/opt/config-files
+    hostname: iris
+    command: ["-a","sh /opt/config-files/configureIris.sh"]
+
+networks:
+  app_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"
