@@ -78,7 +78,8 @@ tls-ssl-webgateway | [Thu Jan 27 21:12:06.698890 2022] [ssl:warn] [pid 132:tid 1
 tls-ssl-webgateway | [Thu Jan 27 21:12:06.726266 2022] [ssl:warn] [pid 133:tid 139642102819776] AH01906: webgateway:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
 ```
 
-Open your browser and open the management portal http://localhost/csp/sys/utilhome.csp
+Open your browser and open the management portal [https://localhost/csp/sys/utilhome.csp](https://localhost/csp/sys/utilhome.csp)  
+Also http call will be redirected to https.  
 
 If you use a self signed certificate, the browser show alert.  Accept and continue...
 
