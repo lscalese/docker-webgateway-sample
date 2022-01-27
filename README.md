@@ -9,7 +9,7 @@ This is a sample to run an Intersystems Wegateway using https and tls\ssl config
 Clone/git pull the repo into any local directory
 
 ```
-$ git clone https://github.com/lscalese/docker-webgateway-sample
+$ git clone https://github.com/lscalese/docker-webgateway-sample.git
 ```
 
 ## Build tls-ssl-webgateway
