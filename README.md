@@ -46,10 +46,7 @@ $ docker-compose build --no-cache -t tls-ssl-webgateway .
 
 ## Starting containers
 
-3. Run the IRIS container with your project:
-
 By default port 80 and 443 are mapped in `docker-compose.yml`, adapt with anothers ports if they are already used on your system.  
-
 
 ```
 $ docker-compose up
@@ -57,7 +54,9 @@ $ docker-compose up
 
 ## How to Test it
 
-Wait the containers are ready, you should see these messages : 
+Wait the containers are ready.  
+
+you should see these messages when it's ready:  
 
 ```
 tls-ssl-webgateway | [INFO] ...httpd done

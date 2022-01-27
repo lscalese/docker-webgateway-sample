@@ -18,7 +18,7 @@ services:
       - "CERTIFICATE_SUBJECT=/C=BE/ST=Wallonia/L=Namur/O=Community/OU=IT/CN=webgateway"
       # Replace by the list of ip address allowed to open the CSP system manager
       # https://localhost/csp/bin/RunTime/Module.cxw
-      - "SYSTEM_MANAGER=127.0.0.1,10.0.2.15"
+      - "SYSTEM_MANAGER=*.*.*.*"
     hostname: webgateway
     command: ["--ssl"]
 
