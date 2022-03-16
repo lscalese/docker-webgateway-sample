@@ -7,18 +7,27 @@ services:
     networks:
       app_net:
         ipv4_address: 172.16.238.50
-    ports: 
+    ports:
+      # change the local port already used on your system. 
       - "80:80"
       - "443:443"
     environment:
       - IRIS_HOST=172.16.238.20
       - IRIS_PORT=1972
-      - "PKI_SERVER=172.16.238.20:52773"
-      - "CERTIFICATE_FILENAME=webgateway_client"
-      - "CERTIFICATE_SUBJECT=/C=BE/ST=Wallonia/L=Namur/O=Community/OU=IT/CN=webgateway"
       # Replace by the list of ip address allowed to open the CSP system manager
       # https://localhost/csp/bin/RunTime/Module.cxw
       - "SYSTEM_MANAGER=*.*.*.*"
+      # the list of web apps
+      # /csp allow to the webgateway to redirect all request starting by /csp to the iris instance
+      # You can specify a list separate by a space : "IRIS_WEBAPPS=/csp /api /isc /swagger-ui"
+      - "IRIS_WEBAPPS=/csp"
+    volumes:
+      # Mount certificates files.
+      - ./volume-apache/webgateway_client.cer:/opt/webgateway/bin/webgateway_client.cer
+      - ./volume-apache/webgateway_client.key:/opt/webgateway/bin/webgateway_client.key
+      - ./volume-apache/CA_Server.cer:/opt/webgateway/bin/CA_Server.cer
+      - ./volume-apache/apache_webgateway.cer:/etc/apache2/certificate/apache_webgateway.cer
+      - ./volume-apache/apache_webgateway.key:/etc/apache2/certificate/apache_webgateway.key
     hostname: webgateway
     command: ["--ssl"]
 
@@ -30,7 +39,12 @@ services:
         ipv4_address: 172.16.238.20
     volumes: 
       - ./iris-config-files:/opt/config-files
+      # Mount certificates files.
+      - ./volume-iris/CA_Server.cer:/usr/irissys/mgr/CA_Server.cer
+      - ./volume-iris/iris_server.cer:/usr/irissys/mgr/iris_server.cer
+      - ./volume-iris/iris_server.key:/usr/irissys/mgr/iris_server.key
     hostname: iris
+    # Load the IRIS configuration file ./iris-config-files/iris-config.json
     command: ["-a","sh /opt/config-files/configureIris.sh"]
 
 networks:

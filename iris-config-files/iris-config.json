@@ -2,9 +2,9 @@
     "Security.SSLConfigs": {
         "%SuperServer": {
             "CAFile": "/usr/irissys/mgr/CA_Server.cer",
-            "CertificateFile": "/usr/irissys/mgr/iris_client.cer",
+            "CertificateFile": "/usr/irissys/mgr/iris_server.cer",
             "Name": "%SuperServer",
-            "PrivateKeyFile": "/usr/irissys/mgr/iris_client.key",
+            "PrivateKeyFile": "/usr/irissys/mgr/iris_server.key",
             "Type": "1",
             "VerifyPeer": 3
         }

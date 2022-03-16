@@ -33,11 +33,6 @@ do
     fi
 done
 
-
-cd webgateway-config-files
-sh ./GenerateCertificateFromPKI.sh
-cd ..
-
 mv /webgateway-config-files/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
 /startWebGateway
