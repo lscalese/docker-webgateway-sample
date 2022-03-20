@@ -26,9 +26,33 @@ sudo useradd –user-group www-data
 ```
 docker pull intersystemsdc/iris-community:latest
 cd ./generator
+# sudo is needed due chown, chgrp, chmod ...
 sudo ./gen-certificates.sh
+# move certificate for apache webserver to the home directory.  
+mkdir -vp ~/webgateway-apache-certificates
+mv -vn ./certificates/apache_webgateway.cer ~/webgateway-apache-certificates/apache_webgateway.cer
+mv -vn ./certificates/apache_webgateway.key ~/webgateway-apache-certificates/apache_webgateway.key
 cd ..
 ```
+
+Generated certficates will be in `./certificates` directory for IRIS instances and webgateway component.  
+The certificate and the private for apache webserver will be in your home directory `~/webgateway-apache-certificates`.  
+If files alread exist, they won't be overrided.  
+
+Using a new generated a certificate for each try on the webserver could cause an error `Certificate contains the same serial number as another certificate`.  
+See troubleshoot section to fix it if you encounter this problem.  
+
+Certficates files overview : 
+
+| File | Container | Description |
+|--- |--- |--- |
+| ~/webgateway-apache-certificates/apache_webgateway.cer | webgateway | Certificate for apache webserver |
+| ~/webgateway-apache-certificates/apache_webgateway.key | webgateway | Related private key |
+| ./certificates/webgateway_client.cer | webgateway | Certificate to encrypt communication between webgateway and IRIS |
+| ./certificates/webgateway_client.key | webgateway | Related private key |
+| ./certificates/CA_Server.cer | webgateway,iris | Authority server certificate|
+| ./certificates/iris_server.cer | iris | Certificate for IRIS instance (used for mirror and wegateway communication encryption) |
+| ./certificates/iris_server.key | iris | Related private key |
 
 ## Build tls-ssl-webgateway
 
@@ -54,3 +78,14 @@ Also http call will be redirected to https.
 If you use a self signed certificate, the browser show alert.  Accept and continue...
 
 Congrats, you have a Webgateway using https and tls\ssl to communicate with IRIS.  
+
+
+# Troubleshoot
+
+## Certificate contains the same serial number as another certificate
+
+With firefox It could happen when we generate new Authority Certificate
+
+Delete cert9.db file and restart : 
+~/.mozilla/firefox/xktesjjl.default-release/cert9.db
+

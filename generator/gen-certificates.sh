@@ -1,50 +1,37 @@
 #!/bin/bash
 
-DIRTMPCERT=./certificates
-VOLAPACHE=../volume-apache-test
-VOLIRIS=../volume-iris-test
-
 # clean previous execution.
-rm -vfr ${DIRTMPCERT} ${VOLIRIS} ${VOLAPACHE}
+rm -vfr ./certificates ../certificates
 
-mkdir ${DIRTMPCERT} ${VOLIRIS} ${VOLAPACHE}
-chmod 777 ${DIRTMPCERT}/
+mkdir -v ./certificates
+chmod 777 ./certificates
 
 docker run \
  --entrypoint /external/irisrun.sh \
  --name cert_generator \
- --publish 1972:1972 --publish 52773:52773 \
  --volume $(pwd):/external \
  intersystemsdc/iris-community:latest
 
 docker container rm cert_generator
 
-# chmod to avoid a permission denied for the copy
-chmod 777 ${DIRTMPCERT}/*
-
-cp ${DIRTMPCERT}/CA_Server.cer ${VOLIRIS}/CA_Server.cer
-cp ${DIRTMPCERT}/CA_Server.cer ${VOLAPACHE}/CA_Server.cer
-
-cp ${DIRTMPCERT}/iris_server.cer ${VOLIRIS}/iris_server.cer
-cp ${DIRTMPCERT}/iris_server.key ${VOLIRIS}/iris_server.key
-
-
-cp ${DIRTMPCERT}/apache_webgateway.cer ${VOLAPACHE}/apache_webgateway.cer
-cp ${DIRTMPCERT}/apache_webgateway.key ${VOLAPACHE}/apache_webgateway.key
-cp ${DIRTMPCERT}/webgateway_client.cer ${VOLAPACHE}/webgateway_client.cer
-cp ${DIRTMPCERT}/webgateway_client.key ${VOLAPACHE}/webgateway_client.key
-
 # change permissions
 
-chown irisowner ${VOLIRIS}/*
-chgrp irisowner ${VOLIRIS}/*
-chmod 640 ${VOLIRIS}/CA_Server.cer ${VOLIRIS}/iris_server.cer
-chmod 600 ${VOLIRIS}/iris_server.key
+chown -v irisowner ./certificates/*_server.cer ./certificates/*_server.key
+chgrp -v irisowner ./certificates/*_server.cer ./certificates/*_server.key
+chmod -v 644 ./certificates/*_server.cer
 
-chown www-data ${VOLAPACHE}/*.key
-chgrp www-data ${VOLAPACHE}/*.key
-chmod 600 ${VOLAPACHE}/*.key
-chown root ${VOLAPACHE}/*.cer
-chgrp root ${VOLAPACHE}/*.cer
-chmod 644 ${VOLAPACHE}/*.cer
+# chmod for private key should be 600, but we have permissions denied with IRIS
+# Maybe irisowner is not the good owner for these files. to analyse...
+chmod -v 640 ./certificates/*.key
+chgrp -v irisuser ./certificates/*_server.key
 
+chown -v www-data ./certificates/apache_webgateway.cer
+chgrp -v www-data ./certificates/apache_webgateway.key
+chmod -v 644 ./certificates/apache_*.cer
+chmod -v 600 ./certificates/apache_webgateway.key
+
+chown -v root ./certificates/webgateway_client.cer ./certificates/webgateway_client.key
+chgrp -v www-data ./certificates/webgateway_client.cer ./certificates/webgateway_client.key
+chmod -v 640 ./certificates/webgateway_*.cer 
+
+mv -v ./certificates ../certificates

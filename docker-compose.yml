@@ -23,11 +23,11 @@ services:
       - "IRIS_WEBAPPS=/csp"
     volumes:
       # Mount certificates files.
-      - ./volume-apache/webgateway_client.cer:/opt/webgateway/bin/webgateway_client.cer
-      - ./volume-apache/webgateway_client.key:/opt/webgateway/bin/webgateway_client.key
-      - ./volume-apache/CA_Server.cer:/opt/webgateway/bin/CA_Server.cer
-      - ./volume-apache/apache_webgateway.cer:/etc/apache2/certificate/apache_webgateway.cer
-      - ./volume-apache/apache_webgateway.key:/etc/apache2/certificate/apache_webgateway.key
+      - ./certificates/webgateway_client.cer:/opt/webgateway/bin/webgateway_client.cer
+      - ./certificates/webgateway_client.key:/opt/webgateway/bin/webgateway_client.key
+      - ./certificates/CA_Server.cer:/opt/webgateway/bin/CA_Server.cer
+      - ~/webgateway-apache-certificates/apache_webgateway.cer:/etc/apache2/certificate/apache_webgateway.cer
+      - ~/webgateway-apache-certificates/apache_webgateway.key:/etc/apache2/certificate/apache_webgateway.key
     hostname: webgateway
     command: ["--ssl"]
 
@@ -40,9 +40,9 @@ services:
     volumes: 
       - ./iris-config-files:/opt/config-files
       # Mount certificates files.
-      - ./volume-iris/CA_Server.cer:/usr/irissys/mgr/CA_Server.cer
-      - ./volume-iris/iris_server.cer:/usr/irissys/mgr/iris_server.cer
-      - ./volume-iris/iris_server.key:/usr/irissys/mgr/iris_server.key
+      - ./certificates/CA_Server.cer:/usr/irissys/mgr/CA_Server.cer
+      - ./certificates/iris_server.cer:/usr/irissys/mgr/iris_server.cer
+      - ./certificates/iris_server.key:/usr/irissys/mgr/iris_server.key
     hostname: iris
     # Load the IRIS configuration file ./iris-config-files/iris-config.json
     command: ["-a","sh /opt/config-files/configureIris.sh"]
