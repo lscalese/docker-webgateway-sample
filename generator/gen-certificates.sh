@@ -10,7 +10,10 @@ docker run \
  --entrypoint /external/irisrun.sh \
  --name cert_generator \
  --volume $(pwd):/external \
- intersystemsdc/iris-community:latest
+ intersystemsdc/iris-community:latest \
+ "/C=BE/ST=Wallonia/L=Namur/O=Community/OU=IT/CN=webgateway" "webgateway_client" \
+ "/C=BE/ST=Wallonia/L=Namur/O=Community/OU=IT/CN=webgateway" "apache_webgateway" \
+ "/C=BE/ST=Wallonia/L=Namur/O=Community/OU=IT/CN=iris" "iris_server"
 
 docker container rm cert_generator
 
