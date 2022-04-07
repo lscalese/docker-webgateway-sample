@@ -57,12 +57,25 @@ Certficates files overview :
 ## Build tls-ssl-webgateway
 
 ```
+sudo docker-compose build --no-cache
+```
+
+Or without sudo: 
+
+```
 docker build --no-cache -t tls-ssl-webgateway .
 ```
 
 ## Starting containers
 
-By default port 80 and 443 are mapped in `docker-compose.yml`, adapt with anothers ports if they are already used on your system.  
+Before starting containers, edit the `docker-compose.yml` file :  
+
+ 1. `SYSTEM_MANAGER` must be set with the IP authorized to have an access to **WebGateway Management** https://localhost/csp/bin/Systems/Module.cxw  
+    Basically, it's your IP address (It could be a comma separated list).  
+ 2. `IRIS_WEBAPPS` must be set with the list of your csp applications.  The list is separated by space, ex : `IRIS_WEBAPPS=/csp/sys /swagger-ui`.  
+    By default only `/csp/sys` is exposed.  
+ 3. Port 80 and 443 are mapped, adapt with anothers ports if they are already used on your system.  
+ 
 
 ```
 $ docker-compose up

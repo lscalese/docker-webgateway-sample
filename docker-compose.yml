@@ -4,6 +4,9 @@ services:
   webgateway:
     image: tls-ssl-webgateway
     container_name: tls-ssl-webgateway
+    build:
+      context: .
+      dockerfile: Dockerfile
     networks:
       app_net:
         ipv4_address: 172.16.238.50
@@ -15,12 +18,12 @@ services:
       - IRIS_HOST=172.16.238.20
       - IRIS_PORT=1972
       # Replace by the list of ip address allowed to open the CSP system manager
-      # https://localhost/csp/bin/RunTime/Module.cxw
-      - "SYSTEM_MANAGER=*.*.*.*"
+      # https://localhost/csp/bin/Systems/Module.cxw
+      - "SYSTEM_MANAGER=${LOCAL_IP}"
       # the list of web apps
       # /csp allow to the webgateway to redirect all request starting by /csp to the iris instance
-      # You can specify a list separate by a space : "IRIS_WEBAPPS=/csp /api /isc /swagger-ui"
-      - "IRIS_WEBAPPS=/csp"
+      # You can specify a list separate by a space : "IRIS_WEBAPPS=/csp/sys /api /isc /swagger-ui"
+      - "IRIS_WEBAPPS=/csp/sys"
     volumes:
       # Mount certificates files.
       - ./certificates/webgateway_client.cer:/opt/webgateway/bin/webgateway_client.cer
