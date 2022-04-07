@@ -24,7 +24,7 @@ fi
 for webapp in $IRIS_WEBAPPS
 do
     
-    if ! grep -q $webapp "$CSPCONFFILE"
+    if ! grep -q "<Location $webapp>" "$CSPCONFFILE"
     then
         echo "Add webapp $webapp to $CSPCONFFILE"
         \printf '<Location '$webapp'>\n   CSP On \n   CSPFileTypes *\n   SetHandler csp-handler-sa\n</Location>\n' >> $CSPCONFFILE
