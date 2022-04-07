@@ -56,14 +56,8 @@ Certficates files overview :
 
 ## Build tls-ssl-webgateway
 
-```
-sudo docker-compose build --no-cache
-```
-
-Or without sudo: 
-
-```
-docker build --no-cache -t tls-ssl-webgateway .
+```bash
+docker-compose build --no-cache
 ```
 
 ## Starting containers
@@ -77,9 +71,16 @@ Before starting containers, edit the `docker-compose.yml` file :
  3. Port 80 and 443 are mapped, adapt with anothers ports if they are already used on your system.  
  
 
+```bash
+docker-compose up -d
 ```
-$ docker-compose up
+
+or to build and run :
+
 ```
+docker-compose up -d --build
+```
+
 
 ## How to Test it
 
