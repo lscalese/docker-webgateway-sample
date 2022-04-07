@@ -24,15 +24,8 @@ sudo useradd –user-group www-data
 ## Generate certificates
 
 ```
-docker pull intersystemsdc/iris-community:latest
-cd ./generator
 # sudo is needed due chown, chgrp, chmod ...
 sudo ./gen-certificates.sh
-# move certificate for apache webserver to the home directory.  
-mkdir -vp ~/webgateway-apache-certificates
-mv -vn ./certificates/apache_webgateway.cer ~/webgateway-apache-certificates/apache_webgateway.cer
-mv -vn ./certificates/apache_webgateway.key ~/webgateway-apache-certificates/apache_webgateway.key
-cd ..
 ```
 
 Generated certficates will be in `./certificates` directory for IRIS instances and webgateway component.  
