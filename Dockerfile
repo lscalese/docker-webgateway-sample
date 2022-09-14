@@ -1,4 +1,5 @@
-ARG IMAGEWEBGTW=containers.intersystems.com/intersystems/webgateway:2021.1.0.215.0
+# ARG IMAGEWEBGTW=containers.intersystems.com/intersystems/webgateway:2021.1.0.215.0
+ARG IMAGEWEBGTW=containers.intersystems.com/intersystems/webgateway:2022.1.0.209.0
 FROM ${IMAGEWEBGTW}
 ADD webgateway-config-files /webgateway-config-files
 ADD buildWebGateway.sh /
